@@ -9,7 +9,7 @@ import {
 
 // OpenRouter model slug used for the in-app chat agents (onboarding + SAM).
 // Override with OPENROUTER_MODEL to swap models without a code change.
-const DEFAULT_CHAT_AGENT_MODEL = "minimax/minimax-m3";
+const DEFAULT_CHAT_AGENT_MODEL = "deepseek/deepseek-v4-pro";
 
 /**
  * Returns the AI SDK LanguageModel for the chat agents. `usage: { include: true }`

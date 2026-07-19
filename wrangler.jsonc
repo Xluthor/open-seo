@@ -61,23 +61,17 @@
   "triggers": {
     "crons": ["*/15 * * * *"],
   },
-  // This config serves local dev and Docker self-host only. All Cloudflare
-  // deployments — previews, prod, self-host — go through Alchemy
-  // (alchemy.run.ts), which provisions real resources per stage and never
-  // reads these ids.
-  //
-  // The ids below are NOT dead config: miniflare derives its on-disk storage
-  // filenames (.wrangler/state, a persistent volume in Docker self-hosts)
-  // from an HMAC of `id`/`database_id`. Changing them orphans every existing
-  // local and self-hosted database. Leave them as-is.
+  // Self-hosted on Xluthor's Cloudflare account. KV namespaces below were
+  // created manually (wrangler kv namespace create) since Wrangler can't
+  // autoprovision KV by fixed id the way it does D1/R2 by name.
   "kv_namespaces": [
     {
       "binding": "KV",
-      "id": "4abd52f3f2c549ac83cc2cb4ceec8620",
+      "id": "14de102f5d054f4d92638bfadeff2fda",
     },
     {
       "binding": "OAUTH_KV",
-      "id": "bd1759494309474a9b423b029967b0db",
+      "id": "1964bed3179543b1afde4ca01b21b7f8",
     },
   ],
   "d1_databases": [
@@ -88,16 +82,6 @@
       "migrations_dir": "drizzle",
     },
   ],
-  // Postgres scale path (opt-in; D1 is the default). Hyperdrive is the ONLY way
-  // the app connects to Postgres — there is no direct-connection fallback. For
-  // local dev, `localConnectionString` is the throwaway Docker Postgres from
-  // docs/LOCAL_POSTGRES.md, and nothing connects to it unless
-  // DATABASE_PROVIDER=postgres is set in .env.local.
-  //
-  // Running raw `wrangler deploy` against another account? DELETE this block —
-  // the id lives in OpenSEO's account and the deploy fails without access to
-  // it. (Alchemy deploys and the Docker image never read it.)
-  
   "r2_buckets": [
     {
       "bucket_name": "open-seo",

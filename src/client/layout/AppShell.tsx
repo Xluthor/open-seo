@@ -13,6 +13,7 @@ import { BILLING_ROUTE } from "@/shared/billing";
 import { getSeoApiKeyStatus } from "@/serverFunctions/config";
 import { getProjects } from "@/serverFunctions/projects";
 import { getLastProjectId } from "@/client/lib/active-project";
+import { RoomflowLogo } from "@/client/components/RoomflowLogo";
 
 const DATAFORSEO_HELP_PATH = "/help/dataforseo-api-key";
 
@@ -180,8 +181,11 @@ function MobileTopBar({
       >
         <Menu className="h-5 w-5" />
       </button>
-      <Link to="/" className="ml-1 font-semibold text-base-content">
-        OpenSEO
+      <Link
+        to="/"
+        className="ml-1 flex items-center gap-1.5 font-semibold text-base-content"
+      >
+        <RoomflowLogo className="h-4 w-auto" />
       </Link>
     </div>
   );

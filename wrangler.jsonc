@@ -6,16 +6,10 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "observability": {
     "enabled": true,
-    // Spans are billed as observability events (free tier 200k/day); add a
-    // traces head_sampling_rate below 1 if span volume becomes a cost concern.
     "traces": {
       "enabled": true,
     },
   },
-  // Smart Placement relocates only the `fetch` handler (cron + Workflow runs
-  // stay at the edge) toward external subrequests — Postgres via Hyperdrive,
-  // SEO APIs — not D1/KV/R2 bindings, so it's a DB no-op on the D1 default.
-  // Must live here: a dashboard-only toggle is wiped by `wrangler deploy`.
   "placement": {
     "mode": "smart",
   },
@@ -31,17 +25,12 @@
       "class_name": "RankCheckWorkflow",
     },
   ],
-  // Durable Object backing the onboarding strategy chat (Agents SDK
-  // AIChatAgent). One instance per project; messages persist in the DO's
-  // SQLite. SQLite-backed classes must be declared in `migrations` below.
   "durable_objects": {
     "bindings": [
       {
         "name": "ONBOARDING_CHAT",
         "class_name": "OnboardingChatAgent",
       },
-      // SAM in-app agent. One instance per chat session; messages persist in the
-      // DO's SQLite. SQLite-backed classes must be declared in `migrations`.
       {
         "name": "SAM_CHAT",
         "class_name": "SamChatAgent",
@@ -61,9 +50,9 @@
   "triggers": {
     "crons": ["*/15 * * * *"],
   },
-  // Self-hosted on Xluthor's Cloudflare account. KV namespaces below were
-  // created manually (wrangler kv namespace create) since Wrangler can't
-  // autoprovision KV by fixed id the way it does D1/R2 by name.
+  // Self-hosted on Xluthor's Cloudflare account. KV namespaces and D1 database
+  // below were created manually in this account (dashboard / wrangler create),
+  // since Wrangler can't autoprovision KV by fixed id the way it does R2 by name.
   "kv_namespaces": [
     {
       "binding": "KV",
@@ -78,7 +67,7 @@
     {
       "binding": "DB",
       "database_name": "open-seo",
-      "database_id": "37bee90a-e1aa-404f-b01e-b0d1d479bda1",
+      "database_id": "587c9b09-fa4d-44c8-abc2-a9d7c9da154e",
       "migrations_dir": "drizzle",
     },
   ],
